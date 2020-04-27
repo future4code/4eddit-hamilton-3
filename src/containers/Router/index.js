@@ -7,7 +7,7 @@ import ListsPosts from "../ListsPosts";
 
 
 
-const routes = {
+export const routes = {
   root: "/",
   posts:"/posts"
   // Outras rotas aqui

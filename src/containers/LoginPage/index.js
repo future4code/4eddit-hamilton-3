@@ -2,83 +2,70 @@ import React, { Component } from "react";
 
 
 
-const formLogin = [
-  {
-    name:"email",
-    type:"text",
-    label:"Email",
-    //pattern:"" NÃO ESQUECER DE POR PATTERN MILENE E GABI
-    title:"Digite seu email"
-  },
-  {
-    name:"senha",
-    type:"password",
-    label:"Senha",
-    //pattern:"" NÃO ESQUECER DE POR PATTERN MILENE E GABI
-    title:"Digite sua senha"
-  },
-
-]
-
 class LoginPage extends Component {
-  state ={
-    form: {
 
-    }
-  }
+  state = {
 
-  handleSubmitForm=(event)=>{
-    event.preventDefault();
-
-    this.setState({form:{}})
-    console.log(this.state.form)
+    email: "",
+    password: ""
 
   }
 
-  handleInputChange = (event)=> {
-    const {name, value } = event.target;
+  handleFieldChange = (event) => {
 
-    this.setState({ form: {...this.state.form, [name]: value}})
+    this.setState({
+      [event.target.name]: event.target.value
+    })
   }
+
+
+  handleLogin = (event) => {
+    event.preventDefault()
+    this.props.login(this.state.email,
+      this.state.password)
+  }
+
+
 
   render() {
-    
-    return (
-      <div>
-        <form onSubmit={this.handleSubmitForm}>
-          {formLogin.map(input => {
+    const { email, password } = this.state;
 
-            return (
-              <div key ={input.name}>
-                <label htmlFor={input.name}>
-                  {input.label}
-                </label>
-                <input 
-                  onChange={this.handleInputChange }
-                  required
-                  name={input.name}
-                  type={input.type}
-                  title={input.title}
-                  />
-              </div>
-            )
-          })}
-         
-        <button 
-        type="submit"
+    return (
+      
+        <div >
+          <label>
+            
+          </label>
+
+          <input
+            onChange={this.handleFieldChange}
+            name="email"
+            type="email"
+            label="E-mail"
+            value={email}
+            required
+          />
+          <input
+            onChange={this.handleFieldChange}
+            name="password"
+            type="password"
+            label="Password"
+            value={password}
+            required
+          />
+             <button
+          type="submit"
         >Entrar
         </button>
-
-    
-        </form> 
-        <button 
-        type="submit"
+        <button
+          type="submit"
         >Cadastrar
         </button>
-        
-      </div>
-    );
-  }
+
+        </div>
+    )}
+    
+  
 }
 
 export default LoginPage;

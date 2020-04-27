@@ -5,6 +5,7 @@ export const generateReducers = history =>
   combineReducers({
     router: connectRouter(history),
     todo
+    
 
     // Outros reducers aqui
   });

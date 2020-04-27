@@ -18,6 +18,10 @@ class ListsPosts extends Component {
     }
 
 
+        componentDidMount() {
+            this.props.getPosts()
+        }
+
     handleInputChange = (event) => {
         this.setState({ inputPostValue: event.target.value })
         // console.log(this.state.inputPostValue)
@@ -32,9 +36,10 @@ class ListsPosts extends Component {
     }
 
     render() {
+        console.log(this.props.posts)
         return (
 
-            <div><h1>Criar Posts</h1>
+            <div><h1>Página de Feed</h1>
             <form
              onSubmit={this.handleSubmitButton }
             
