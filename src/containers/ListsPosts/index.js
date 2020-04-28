@@ -62,9 +62,22 @@ class ListsPosts extends Component {
                  </button>
                  </form>
                 <ul>
-                    {/* {this.props.posts && this.props.posts.map(post => {
-                        return (<li key={post.id}>{post.text}</li>)
-                    })} */}
+                    {this.props.posts && this.props.posts.map(post => {
+                        return (
+                    
+                        <li  key={post.id}>
+
+                        <strong>{post.username}</strong>
+                        <br/>
+                        <em>{post.title}</em>
+
+                        <p>{post.text}</p>
+                        
+
+                        
+                        </li>)
+                    })}
+                  
                 </ul>
 
             </div>
@@ -73,7 +86,7 @@ class ListsPosts extends Component {
 
 }
 const mapStateToProps = state => ({
-    posts: state.todo
+    posts: state.todo.posts
 
 })
 

@@ -38,9 +38,9 @@ export const getPosts=(token)=> async(dispatch,setState)=> { //FALTANDO TOKEN E 
     }
     
     )
-    
-    
+    console.log(response.data.posts)
     dispatch(setAllPosts(response.data.posts))
+
 }
 
 export const login = (email, password) => async (dispatch, setState) => {
