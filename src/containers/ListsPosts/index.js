@@ -18,9 +18,12 @@ class ListsPosts extends Component {
     }
 
 
-        componentDidMount() {
-            this.props.getPosts()
-        }
+    componentDidMount() {
+   
+    this.props.getPosts(localStorage.getItem("token"))
+    
+
+    }
 
     handleInputChange = (event) => {
         this.setState({ inputPostValue: event.target.value })
@@ -59,9 +62,9 @@ class ListsPosts extends Component {
                  </button>
                  </form>
                 <ul>
-                    {this.props.posts && this.props.posts.map(post => {
+                    {/* {this.props.posts && this.props.posts.map(post => {
                         return (<li key={post.id}>{post.text}</li>)
-                    })}
+                    })} */}
                 </ul>
 
             </div>

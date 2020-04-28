@@ -30,9 +30,15 @@ export function addPosts(text) {
 
 
 //ASSÍNCRONAS
-export const getPosts=()=> async(dispatch,setState)=> { //FALTANDO TOKEN E AUTH E HEADER
-    const response = await axios.get(`${baseURL}/posts`)
-    console.log(response)
+export const getPosts=(token)=> async(dispatch,setState)=> { //FALTANDO TOKEN E AUTH E HEADER
+    const response = await axios.get(`${baseURL}/posts`,{
+        headers:{
+            auth:token
+        }
+    }
+    
+    )
+    
     
     dispatch(setAllPosts(response.data.posts))
 }

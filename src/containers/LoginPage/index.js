@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux"
+import { bindActionCreators } from 'redux'
+import * as todoActions from "../../actions/todoPosts"
 
 
 
@@ -20,10 +23,10 @@ class LoginPage extends Component {
 
 
   handleLogin = (event) => {
-    event.preventDefault()
-    this.props.login(this.state.email,
-      this.state.password)
-  }
+    event.preventDefault();
+
+    this.props.login(this.state.email, this.state.password);
+    console.log(this.state)}
 
 
 
@@ -32,7 +35,7 @@ class LoginPage extends Component {
 
     return (
       
-        <div >
+        <form onSubmit={this.handleLogin}>
           <label>
             
           </label>
@@ -54,6 +57,7 @@ class LoginPage extends Component {
             required
           />
              <button
+            //  onClick={this.handleLogin}
           type="submit"
         >Entrar
         </button>
@@ -62,10 +66,15 @@ class LoginPage extends Component {
         >Cadastrar
         </button>
 
-        </div>
+        </form>
     )}
-    
-  
-}
+  }
 
-export default LoginPage;
+
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(todoActions, dispatch)
+
+
+export default connect(null, mapDispatchToProps)(LoginPage)
+
