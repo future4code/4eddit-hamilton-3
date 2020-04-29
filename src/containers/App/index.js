@@ -9,6 +9,7 @@ import { createStore, applyMiddleware, compose } from "redux";
 import { generateReducers } from "../../reducers";
 import { routerMiddleware } from "connected-react-router";
 
+
 export const history = createBrowserHistory();
 
 const middlewares = [

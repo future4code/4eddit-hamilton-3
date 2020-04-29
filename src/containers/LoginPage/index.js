@@ -1,7 +1,11 @@
 import React, { Component } from "react";
-import { connect } from "react-redux"
-import { bindActionCreators } from 'redux'
+import { connect} from "react-redux"
+import { bindActionCreators, dispatch } from 'redux'
 import * as todoActions from "../../actions/todoPosts"
+import {WrapperLogin} from "./styled"
+import { push} from "connected-react-router";
+import { routes } from "../Router/index"
+
 
 
 
@@ -30,16 +34,15 @@ class LoginPage extends Component {
 
 
 
+
   render() {
     const { email, password } = this.state;
 
     return (
-      
-        <form onSubmit={this.handleLogin}>
-          <label>
-            
-          </label>
+        <WrapperLogin>
 
+    <form onSubmit={this.handleLogin}>
+      
           <input
             onChange={this.handleFieldChange}
             name="email"
@@ -48,6 +51,7 @@ class LoginPage extends Component {
             value={email}
             required
           />
+
           <input
             onChange={this.handleFieldChange}
             name="password"
@@ -56,25 +60,31 @@ class LoginPage extends Component {
             value={password}
             required
           />
-             <button
-            //  onClick={this.handleLogin}
-          type="submit"
-        >Entrar
-        </button>
-        <button
-          type="submit"
-        >Cadastrar
-        </button>
 
-        </form>
+         
+            <button
+            type="submit"
+            >Entrar
+            </button>
+
+          
+      </form>
+             <button
+                type="submit"
+                onClick={this.props.redirectSignup}
+              >Cadastrar
+              </button>
+
+      
+        </WrapperLogin>
     )}
   }
 
 
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = dispatch => 
   bindActionCreators(todoActions, dispatch)
-
+ 
 
 export default connect(null, mapDispatchToProps)(LoginPage)
 

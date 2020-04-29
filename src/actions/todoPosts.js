@@ -14,34 +14,115 @@ export function setAllPosts (posts) {
 
 }
 
+//MOSTRAR OS DETALHES DO POST
+export function postDetails (comments) {
+    return {
+        type:"POST_DETAILS",
+        payload: {
+            comments
+        }
+    }
+
+}
+
 
 //ADICIONAR POSTS
-export function addPosts(text) {
-    return{
-        type:"ADD_POSTS",
+
+
+
+
+
+//PEGAR ID DO POST E VER COMENTARIOS
+
+export const getPostId = (id) => {
+    return {
+        type: 'GET_POST_ID',
         payload: {
-            text
+            id
         }
     }
 }
+
+
 
 
  const baseURL = ("https://us-central1-future-apis.cloudfunctions.net/fourEddit")
 
 
+
 //ASSÍNCRONAS
-export const getPosts=(token)=> async(dispatch,setState)=> { //FALTANDO TOKEN E AUTH E HEADER
+export const getPosts=()=> async(dispatch,setState)=> {
+    const token = localStorage.getItem("token")
     const response = await axios.get(`${baseURL}/posts`,{
         headers:{
             auth:token
         }
-    }
-    
-    )
-    console.log(response.data.posts)
+    })
+  
     dispatch(setAllPosts(response.data.posts))
 
 }
+
+export const addPost=(title, text)=> async (dispatch, setState)=> {
+    const token = localStorage.getItem("token")
+    const body = {
+        title:title,
+        text:text
+    }
+    try {
+        const response = await axios.post(`${baseURL}/posts`, body,{
+            headers: {
+                auth:token
+            }
+        })
+        
+        dispatch(getPosts())
+    }catch (error){
+        console.error(error)
+        console.log(title)
+        console.log(text)
+    }
+}
+
+export const getPostDetails = (id, token) => async (dispatch, setState) => {
+    const response = await axios.get(
+        `${baseURL}/posts/${id}`,
+        {
+          headers: {
+            auth: token,
+          },
+        }
+      );
+
+      localStorage.setItem("postId", id)
+
+      dispatch(postDetails (response.data.post.comments));
+      dispatch(push(routes.details))
+    
+};
+export const redirectSignup = ()=> async(dispatch, setState)=> {
+    dispatch(push(routes.signup))
+}
+
+export const signup = (username, email, password) => async (dispatch, setState) => {
+    const body = {
+        username: username,
+        email: email,
+        password: password
+    };
+
+    try {
+        const response = await axios.post(`${baseURL}/signup`, body);
+
+        localStorage.setItem("token", response.data.token);
+        dispatch(push(routes.posts))
+
+    } catch (error) {
+        alert("Tivemos um problema. Tente novamente")
+        console.log(error)
+    }
+}
+
 
 export const login = (email, password) => async (dispatch, setState) => {
     const body = {
