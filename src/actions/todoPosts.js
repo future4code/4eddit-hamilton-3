@@ -99,10 +99,36 @@ export const votePost =(direction, id)=>async (dispatch, setState) => {
                 auth: token
             }
         })
+        
     }catch (error){
-        alert("Deu ruim")
+        alert("Ocorreu um erro inesperado. Tente novamente")
 
     }
+}
+
+//VOTOS COMENTARIOS
+
+export const voteComment = (direction, postId, commentId)=>async (dispatch, setState) => {
+    const token = localStorage.getItem("token")
+    const body = {
+        direction
+
+    }
+    try{
+        await axios.put(`${baseURL}/posts/${postId}/comment/${commentId}/vote`, body, {
+            headers: {
+                auth: token
+            }
+        
+        }) 
+        dispatch(getPostDetails(postId, token))
+
+        }catch (error){
+        alert("Ocorreu um erro inesperado. Tente novamente")
+
+
+    }
+
 }
 
 

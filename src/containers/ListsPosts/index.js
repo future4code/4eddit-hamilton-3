@@ -123,9 +123,9 @@ class ListsPosts extends Component {
                         <p>{post.text}</p>
 
                         <div>
-                            
+
                             <div>
-                                    <button onClick={()=>this.handleDislike(post.id, post.userVoteDirection)} ><i class="fas fa-long-arrow-alt-down"></i></button>
+                                  <button onClick={()=>this.handleDislike(post.id, post.userVoteDirection)} ><i class="fas fa-long-arrow-alt-down"></i></button>
 
                                     <p> 
                                         {post.votesCount}

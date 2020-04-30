@@ -23,9 +23,30 @@ class FeedDetails extends Component{
         this.props.createComment(id, this.state.inputCommentValue)
     }
 
+    handleLike = (direction, postId, commentId)=> {
+
+        if (direction === 0 || direction === -1) {
+            this.props.voteComment(1,postId, commentId)
+        } else {
+            this.props.voteComment(0,postId, commentId)
+        }
+        console.log(direction)
+    }
+
+    handleDislike = (direction, postId, commentId)=> {
+
+        if (direction === 0 || direction === 1) {
+            this.props.voteComment(-1, postId,commentId)
+        } else {
+            this.props.voteComment(0, postId, commentId)
+        }
+        console.log(direction)
+    }
+
     render (){
-      
-        return( 
+        console.log(this.props.postInfo)
+        console.log(this.props.comments)
+    return( 
 
         <WrapperDetails>
             
@@ -39,7 +60,9 @@ class FeedDetails extends Component{
                 <div>
 
                     <div>
-                            <button><i class="fas fa-long-arrow-alt-down"></i></button>
+                            <button 
+                       
+                            ><i class="fas fa-long-arrow-alt-down"></i></button>
                             <p> 
                             {this.props.postInfo.votesCount}
                             </p>
@@ -60,7 +83,6 @@ class FeedDetails extends Component{
                 
                 placeholder="seu comentario"/>
                 <button
-                onClick={()=>this.onClickButton(this.props.postInfo.id)}
                 >Comentar
                 </button>
 
@@ -72,16 +94,21 @@ class FeedDetails extends Component{
                   
                   <main key={comment.id}>
 
-                       <p>{comment.username}</p>
+                       <strong>{comment.username}</strong>
                        <p>{comment.text}</p>
                        
                         <div>
                             <div>
-                            <button><i class="fas fa-long-arrow-alt-down"></i></button>
+                            <button
+                                onClick={()=>this.handleDislike(this.props.postInfo.userVoteDirection, this.props.postInfo.id, comment.id)}
+                            ><i class="fas fa-long-arrow-alt-down"></i></button>
                             <p> 
                                 {comment.votesCount}
                             </p>
-                            <button  ><i class="fas fa-long-arrow-alt-up"></i></button>
+                            <button 
+                              onClick={()=>this.handleLike(this.props.postInfo.userVoteDirection, this.props.postInfo.id, comment.id)}
+                            
+                            ><i class="fas fa-long-arrow-alt-up"></i></button>
                             </div>
                             <p>comentários</p>
                             
