@@ -19,11 +19,9 @@ class ListsPosts extends Component {
 
     }
 
-
     componentDidMount() {
    
     this.props.getPosts()
-    // this.props.getPostDetails(this.props.postId, localStorage.getItem("token"))
     
     }
 
@@ -41,9 +39,6 @@ class ListsPosts extends Component {
         this.props.addPost(this.state.inputTitleValue, this.state.inputPostValue)
         this.setState({ inputPostValue: "", inputTitleValue:"" })
        
-        console.log(this.state.inputPostValue)
-        console.log(this.state.inputTitleValue)
-
 
     }
 
@@ -60,7 +55,6 @@ class ListsPosts extends Component {
         } else {
             this.props.votePost(0, id)
         }
-        console.log(direction)
     }
 
     handleDislike = (id, direction)=> {
@@ -70,9 +64,7 @@ class ListsPosts extends Component {
         } else {
             this.props.votePost(0, id)
         }
-        console.log(direction)
     }
-
 
 
     render() {
@@ -100,7 +92,7 @@ class ListsPosts extends Component {
                 name="inputTitleValue"
                 type="text"
                 value={this.inputTitleValue}
-                placeholder="titulo do post"
+                placeholder="Título do post"
                  />
 
                 <button

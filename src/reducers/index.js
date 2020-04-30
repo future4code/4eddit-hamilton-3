@@ -6,6 +6,4 @@ export const generateReducers = history =>
     router: connectRouter(history),
     todo
     
-
-    // Outros reducers aqui
   });

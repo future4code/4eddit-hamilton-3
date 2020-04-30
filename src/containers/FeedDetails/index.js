@@ -30,7 +30,6 @@ class FeedDetails extends Component{
         } else {
             this.props.voteComment(0,postId, commentId)
         }
-        console.log(direction)
     }
 
     handleDislike = (direction, postId, commentId)=> {
@@ -40,12 +39,11 @@ class FeedDetails extends Component{
         } else {
             this.props.voteComment(0, postId, commentId)
         }
-        console.log(direction)
+       
     }
 
     render (){
-        console.log(this.props.postInfo)
-        console.log(this.props.comments)
+      
     return( 
 
         <WrapperDetails>
@@ -71,8 +69,6 @@ class FeedDetails extends Component{
 
                     <p>{this.props.postInfo.commentsCount} comentarios </p>
                 </div>
-
-            
 
             </div>
 
@@ -110,8 +106,6 @@ class FeedDetails extends Component{
                             
                             ><i class="fas fa-long-arrow-alt-up"></i></button>
                             </div>
-                            <p>comentários</p>
-                            
 
                          </div>
                    </main>

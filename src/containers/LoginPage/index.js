@@ -30,7 +30,7 @@ class LoginPage extends Component {
     event.preventDefault();
 
     this.props.login(this.state.email, this.state.password);
-    console.log(this.state)}
+  }
 
 
 

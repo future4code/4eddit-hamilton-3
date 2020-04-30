@@ -28,7 +28,7 @@ class SignupPage extends Component {
       event.preventDefault();
   
       this.props.signup(this.state.userName, this.state.email, this.state.password);
-      console.log(this.state)}
+      }
   
   
   

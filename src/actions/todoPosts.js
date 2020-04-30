@@ -3,8 +3,6 @@ import { push} from "connected-react-router";
 import { routes } from "../containers/Router"
 
 
-//PEGAR TODOS OS POSTS
-
 export function setAllPosts (posts) {
     return {
         type:"SET_ALL_POSTS",
@@ -15,7 +13,6 @@ export function setAllPosts (posts) {
 
 }
 
-//MOSTRAR OS DETALHES DO POST
 
 export function postDetails (comments) {
     return {
@@ -42,10 +39,6 @@ export const getPostId = (id) => {
 
 
 
-//ASSÍNCRONAS
-
-//PEGAR TODOS OS POSTS FEITOS
-
 export const getPosts=()=> async(dispatch,setState)=> {
     
     try {
@@ -63,7 +56,6 @@ export const getPosts=()=> async(dispatch,setState)=> {
 
 }
 
-//ADICIONAR POSTS
 
 export const addPost=(title, text)=> async (dispatch, setState)=> {
     const token = localStorage.getItem("token")
@@ -84,7 +76,6 @@ export const addPost=(title, text)=> async (dispatch, setState)=> {
     }
 }
 
-// VOTAR NO POST
 
 
 export const votePost =(direction, id)=>async (dispatch, setState) => {
@@ -106,7 +97,7 @@ export const votePost =(direction, id)=>async (dispatch, setState) => {
     }
 }
 
-//VOTOS COMENTARIOS
+
 
 export const voteComment = (direction, postId, commentId)=>async (dispatch, setState) => {
     const token = localStorage.getItem("token")
@@ -132,8 +123,6 @@ export const voteComment = (direction, postId, commentId)=>async (dispatch, setS
 }
 
 
-
-
 export const createComment =(id, text)=> async (dispatch, setState)=> {
     const token = localStorage.getItem("token")
     const body = {
@@ -153,7 +142,6 @@ export const createComment =(id, text)=> async (dispatch, setState)=> {
     }
 }
 
-//PEGAR DETALHES DO POST
 
 export const getPostDetails = (id, token) => async (dispatch, setState) => {
     
@@ -185,8 +173,6 @@ export const redirectSignup = ()=> async(dispatch, setState)=> {
 }
 
 
-// CADSTRO DE NOVOS USUARIOS
-
 export const signup = (username, email, password) => async (dispatch, setState) => {
     const body = {
         username: username,
@@ -205,7 +191,6 @@ export const signup = (username, email, password) => async (dispatch, setState) 
     }
 }
 
-//LOGIN DE USUARIO
 
 export const login = (email, password) => async (dispatch, setState) => {
     const body = {

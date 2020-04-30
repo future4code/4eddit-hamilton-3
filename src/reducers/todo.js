@@ -1,11 +1,4 @@
 
-// 
-// const initialState = {
-//     posts:[
-
-
-//     ]
-// }
 
 export default function todo(state = [], action) {
     switch (action.type) {
