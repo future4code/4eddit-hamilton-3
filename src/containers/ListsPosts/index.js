@@ -2,76 +2,149 @@ import React, { Component } from "react";
 import { connect } from "react-redux"
 import { bindActionCreators } from 'redux'
 import * as todoActions from "../../actions/todoPosts"
+import { WrapperPosts } from "./styled";
 
 
 
 class ListsPosts extends Component {
     constructor(props) {
-        console.log(props)
+        // console.log(props)
         super(props)
         this.state = {
-            inputPostValue: ""
-
+            inputPostValue: "",
+            inputTitleValue:"",
+            thumbs:false
 
         }
 
     }
 
+    componentDidMount() {
+   
+    this.props.getPosts()
+    
+    }
 
-        componentDidMount() {
-            this.props.getPosts()
-        }
+
 
     handleInputChange = (event) => {
-        this.setState({ inputPostValue: event.target.value })
+        const {value, name}=event.target
+        this.setState({ [name]:value })
         // console.log(this.state.inputPostValue)
     }
 
-    handleSubmitButton = (event) => {
+    handleSubmitForm = (event) => {
+
         event.preventDefault()
-        this.props.addPosts(this.state.inputPostValue)
-        this.setState({ inputPostValue: "" })
-        
+        this.props.addPost(this.state.inputTitleValue, this.state.inputPostValue)
+        this.setState({ inputPostValue: "", inputTitleValue:"" })
+       
 
     }
 
+    handleSubmitId =(id)=> {
+       
+        this.props.getPostDetails(id, localStorage.getItem("token"))
+    }
+
+
+    handleLike = (id, direction)=> {
+
+        if (direction === 0 || direction === -1) {
+            this.props.votePost(1, id)
+        } else {
+            this.props.votePost(0, id)
+        }
+    }
+
+    handleDislike = (id, direction)=> {
+
+        if (direction === 0 || direction === 1) {
+            this.props.votePost(-1, id)
+        } else {
+            this.props.votePost(0, id)
+        }
+    }
+
+
     render() {
-        console.log(this.props.posts)
+       
         return (
 
-            <div><h1>Página de Feed</h1>
-            <form
-             onSubmit={this.handleSubmitButton }
-            
-            >
-                <input
-                    required
-                    onChange={this.handleInputChange}
-                    type="text"
-                    value={this.inputPostValue}
+    <WrapperPosts>
 
-                />
-                <button
-                 
+                <h1>Página de Feed</h1>
+        
+            <form onSubmit={this.handleSubmitForm}>
                 
-                    type="submit">
-                    Criar Post
+                <input
+                required
+                onChange={this.handleInputChange}
+                type="text"
+                name="inputPostValue"
+                value={this.inputPostValue}
+                placeholder="O que você está pensando?"
+                />
+
+                <input
+                required
+                onChange={this.handleInputChange}
+                name="inputTitleValue"
+                type="text"
+                value={this.inputTitleValue}
+                placeholder="Título do post"
+                 />
+
+                <button
+                type="submit">
+                   Publicar
                  </button>
-                 </form>
+
+            </form>
+
                 <ul>
                     {this.props.posts && this.props.posts.map(post => {
-                        return (<li key={post.id}>{post.text}</li>)
+
+                        return (
+                
+                <li  key={post.id}
+                        onClick={()=>this.handleSubmitId(post.id)}>
+                        <strong>{post.username}</strong>
+                        <br/>
+                        <em>{post.title}</em>
+                        <p>{post.text}</p>
+
+                        <div>
+
+                            <div>
+                                  <button onClick={()=>this.handleDislike(post.id, post.userVoteDirection)} ><i class="fas fa-long-arrow-alt-down"></i></button>
+
+                                    <p> 
+                                        {post.votesCount}
+                                    </p>
+
+                                    <button onClick={()=>this.handleLike(post.id, post.userVoteDirection)}  ><i class="fas fa-long-arrow-alt-up"></i></button>
+                            </div>
+                            
+                            <p>{post.commentsCount} comentários</p> 
+
+                        </div>   
+
+                </li>)
+
                     })}
+                  
                 </ul>
 
-            </div>
+        </WrapperPosts>
+        
         )
     }
 
 }
 const mapStateToProps = state => ({
-    posts: state.todo
-
+    posts: state.todo.posts,
+    postId: state.todo.postInfo
 })
 
 const mapDispatchToProps = dispatch =>
