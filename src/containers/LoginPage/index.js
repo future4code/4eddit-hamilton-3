@@ -42,18 +42,21 @@ class LoginPage extends Component {
         <WrapperLogin>
 
     <form onSubmit={this.handleLogin}>
-      
+
+
           <input
             onChange={this.handleFieldChange}
+            placeholder="Digite seu email"
             name="email"
             type="email"
             label="E-mail"
             value={email}
             required
-          />
+  />
 
           <input
             onChange={this.handleFieldChange}
+            placeholder="Digite sua senha"
             name="password"
             type="password"
             label="Password"
