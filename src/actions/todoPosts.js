@@ -4,6 +4,7 @@ import { routes } from "../containers/Router"
 
 
 //PEGAR TODOS OS POSTS
+
 export function setAllPosts (posts) {
     return {
         type:"SET_ALL_POSTS",
@@ -15,6 +16,7 @@ export function setAllPosts (posts) {
 }
 
 //MOSTRAR OS DETALHES DO POST
+
 export function postDetails (comments) {
     return {
         type:"POST_DETAILS",
@@ -26,14 +28,6 @@ export function postDetails (comments) {
 }
 
 
-//ADICIONAR POSTS
-
-
-
-
-
-//PEGAR ID DO POST E VER COMENTARIOS
-
 export const getPostId = (id) => {
     return {
         type: 'GET_POST_ID',
@@ -44,15 +38,18 @@ export const getPostId = (id) => {
 }
 
 
-
-
  const baseURL = ("https://us-central1-future-apis.cloudfunctions.net/fourEddit")
 
 
 
 //ASSÍNCRONAS
+
+//PEGAR TODOS OS POSTS FEITOS
+
 export const getPosts=()=> async(dispatch,setState)=> {
-    const token = localStorage.getItem("token")
+    
+    try {
+        const token = localStorage.getItem("token")
     const response = await axios.get(`${baseURL}/posts`,{
         headers:{
             auth:token
@@ -60,8 +57,13 @@ export const getPosts=()=> async(dispatch,setState)=> {
     })
   
     dispatch(setAllPosts(response.data.posts))
+    }catch {
+    alert("Ocorreu um erro inesperado. Tente novamente.")
+}
 
 }
+
+//ADICIONAR POSTS
 
 export const addPost=(title, text)=> async (dispatch, setState)=> {
     const token = localStorage.getItem("token")
@@ -77,15 +79,61 @@ export const addPost=(title, text)=> async (dispatch, setState)=> {
         })
         
         dispatch(getPosts())
-    }catch (error){
-        console.error(error)
-        console.log(title)
-        console.log(text)
+    }catch {
+       alert("Erro ao adicionar seu post. Tente novamente")
     }
 }
 
+// VOTAR NO POST
+
+
+export const votePost =(direction, id)=>async (dispatch, setState) => {
+    const token = localStorage.getItem("token")
+    const body = {
+        direction
+
+    }
+    try{
+        await axios.put(`${baseURL}/posts/${id}/vote`, body, {
+            headers: {
+                auth: token
+            }
+        })
+    }catch (error){
+        alert("Deu ruim")
+
+    }
+}
+
+
+
+
+export const createComment =(id, text)=> async (dispatch, setState)=> {
+    const token = localStorage.getItem("token")
+    const body = {
+        text:text
+    }
+    try {
+        const response =  await axios.post(`${baseURL}/posts/${id}/comment`, body,{
+            headers: {
+                auth:token
+            }
+        })
+        
+        dispatch(getPostDetails(id, token))
+    }catch{
+        alert("Ocorreu um erro inesperado. Tente novamente.")
+       
+    }
+}
+
+//PEGAR DETALHES DO POST
+
 export const getPostDetails = (id, token) => async (dispatch, setState) => {
-    const response = await axios.get(
+    
+    try {
+        const response = await axios.get(
+
         `${baseURL}/posts/${id}`,
         {
           headers: {
@@ -96,13 +144,22 @@ export const getPostDetails = (id, token) => async (dispatch, setState) => {
 
       localStorage.setItem("postId", id)
 
-      dispatch(postDetails (response.data.post.comments));
+      dispatch(postDetails (response.data.post));
       dispatch(push(routes.details))
+
+    }catch {
+
+        alert("Ocorreu um erro inesperado. Atualize seu navegador.")
+        
+    }
     
-};
+}
 export const redirectSignup = ()=> async(dispatch, setState)=> {
     dispatch(push(routes.signup))
 }
+
+
+// CADSTRO DE NOVOS USUARIOS
 
 export const signup = (username, email, password) => async (dispatch, setState) => {
     const body = {
@@ -117,12 +174,12 @@ export const signup = (username, email, password) => async (dispatch, setState) 
         localStorage.setItem("token", response.data.token);
         dispatch(push(routes.posts))
 
-    } catch (error) {
-        alert("Tivemos um problema. Tente novamente")
-        console.log(error)
+    } catch {
+        alert("Ocorreu um erro inesperado. Tente novamente.")
     }
 }
 
+//LOGIN DE USUARIO
 
 export const login = (email, password) => async (dispatch, setState) => {
     const body = {
@@ -138,6 +195,6 @@ export const login = (email, password) => async (dispatch, setState) => {
 
     } catch (error) {
         alert("Erro no login, tente novamente!")
-        console.log(error)
+        
     }
 }

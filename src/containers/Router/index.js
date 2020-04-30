@@ -1,11 +1,26 @@
 import React from "react";
 import { ConnectedRouter } from "connected-react-router";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import LoginPage from "../LoginPage";
 import ListsPosts from "../ListsPosts";
 import FeedDetails from "../FeedDetails"
 import SignupPage from "../SignupPage";
+import {isAuthenticated} from "../../auth"
 
+
+
+const PrivateRoute =({component:Component,...rest})=> (
+  <Route {...rest} 
+  render={ props =>
+    isAuthenticated() ? (
+    <Component {...props}/>
+
+  ): (
+    <Redirect to ={{pathname:"/", state:{from:props.location}}}/>
+  )
+}/>
+
+)
 
 
 
@@ -21,10 +36,10 @@ function Router(props) {
   return (
     <ConnectedRouter history={props.history}>
       <Switch>
-        <Route exact path={routes.details} component={FeedDetails}/>
+        <PrivateRoute exact path={routes.details} component={FeedDetails}/>
         <Route exact path={routes.root} component={LoginPage} />
         <Route exact path={routes.signup} component={SignupPage}/>
-        <Route exact path={routes.posts} component={ListsPosts}/>
+        <PrivateRoute exact path={routes.posts} component={ListsPosts}/>
       </Switch>
     </ConnectedRouter>
   );

@@ -12,7 +12,9 @@ class ListsPosts extends Component {
         super(props)
         this.state = {
             inputPostValue: "",
-            inputTitleValue:""
+            inputTitleValue:"",
+            thumbs:false
+
         }
 
     }
@@ -23,8 +25,9 @@ class ListsPosts extends Component {
     this.props.getPosts()
     // this.props.getPostDetails(this.props.postId, localStorage.getItem("token"))
     
-
     }
+
+
 
     handleInputChange = (event) => {
         const {value, name}=event.target
@@ -41,20 +44,42 @@ class ListsPosts extends Component {
         console.log(this.state.inputPostValue)
         console.log(this.state.inputTitleValue)
 
-     
-        
 
     }
+
     handleSubmitId =(id)=> {
        
         this.props.getPostDetails(id, localStorage.getItem("token"))
     }
 
+
+    handleLike = (id, direction)=> {
+
+        if (direction === 0 || direction === -1) {
+            this.props.votePost(1, id)
+        } else {
+            this.props.votePost(0, id)
+        }
+        console.log(direction)
+    }
+
+    handleDislike = (id, direction)=> {
+
+        if (direction === 0 || direction === 1) {
+            this.props.votePost(-1, id)
+        } else {
+            this.props.votePost(0, id)
+        }
+        console.log(direction)
+    }
+
+
+
     render() {
        
         return (
 
-        <WrapperPosts>
+    <WrapperPosts>
 
                 <h1>Página de Feed</h1>
         
@@ -87,25 +112,34 @@ class ListsPosts extends Component {
 
                 <ul>
                     {this.props.posts && this.props.posts.map(post => {
+
                         return (
-                    
-                        <li  key={post.id}
+                
+                <li  key={post.id}
                         onClick={()=>this.handleSubmitId(post.id)}>
                         <strong>{post.username}</strong>
                         <br/>
                         <em>{post.title}</em>
                         <p>{post.text}</p>
 
-                     <div>
+                        <div>
+                            
+                            <div>
+                                    <button onClick={()=>this.handleDislike(post.id, post.userVoteDirection)} ><i class="fas fa-long-arrow-alt-down"></i></button>
 
-                        <p> ↑{post.votesCount}↓ </p>
-                        <p>{post.commentsCount} comentários</p> 
+                                    <p> 
+                                        {post.votesCount}
+                                    </p>
 
-                    </div>   
-                        
-                        {/* <button onClick={()=>this.handleSubmitId(post.id)}>Clicar</button> */}
+                                    <button onClick={()=>this.handleLike(post.id, post.userVoteDirection)}  ><i class="fas fa-long-arrow-alt-up"></i></button>
+                            </div>
+                            
+                            <p>{post.commentsCount} comentários</p> 
 
-                        </li>)
+                        </div>   
+
+                </li>)
+
                     })}
                   
                 </ul>
